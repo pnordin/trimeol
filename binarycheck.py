@@ -1,6 +1,4 @@
 
-import subprocess
-
 def is_binary_file(fname):
     """Attempt to guess if 'fname' is a binary file heuristically.
 
