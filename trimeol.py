@@ -44,7 +44,10 @@ def process_file(name):
     Returns 0 on success.
     """
     fname = name.rstrip(' \t\n\r')
+    indata = ""
     data = ""
+    start_size = 0
+    end_size = 0
 
     if (binarycheck.is_binary_file(fname)):
         print("Skipping {} - it appears to be a binary file.".format(fname))
@@ -53,9 +56,15 @@ def process_file(name):
     try:
         with open(fname, 'r') as fin:
             for line in fin:
+                start_size += len(line)
                 data = "".join([data,
-                                line.rstrip(' \t\n\r'),
+                                line.rstrip(' \t\n'),
                                 '\n'])
+        end_size = len(data)
+        if start_size == end_size: # No change in data
+            print("Skipping {} - no changes made.".format(fname))
+            return -1
+            
         return write_data(data, fname)
     except IOError:
         print("An error occurred processing {}".format(fname))
