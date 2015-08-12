@@ -55,9 +55,13 @@ def write_data(data, destination):
             fout.write(data)
             fout.flush()
             os.fsync(fout.fileno())
-        os.remove(destination)
-        os.rename(tmpfile, destination)
-    except (IOError, OSError):
+        try:
+            os.rename(tmpfile, destination)
+        except OSError:
+            # Probably a Windows machine, try to remove destination first.
+            os.remove(destination)
+            os.rename(tmpfile, destination)
+    except IOError:
         print("An error occured writing {}".format(destination))
         return -1
 
