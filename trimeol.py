@@ -1,35 +1,9 @@
 #!/usr/bin/python3
-
-# Remove all end of line whitespace and tabs in a text file(s).
-#
-# Usage:
-#   trimeol.py [input_files]
-#   If no input_files are supplied, the program reads from stdin.
-#
-# Examples:
-#    Perform on a single file:
-#        trimeol.py ~/project/main.c
-#
-#    Performs on multiple files:
-#        trimeol.py main.c builtins.h
-#
-#    Perform on all files in the current directory:
-#        *nix:
-#            find . -type f -maxdepth 1 | trimeol.py
-#        Windows:
-#            dir /B /A:-D | trimeol.py
-#
-#    Perform on all files in the current directory recursively:
-#        *nix:
-#            find . -type f | trimeol.py
-#        Windows:
-#            dir /B /S /A:-D | trimeol.py
-#
-#    Perform on all .c files in current directory recursively:
-#        *nix:
-#            find . -type f | grep ".*\.c$" | trimeol.py
-#        Windows:
-#            dir /B /S /A:-D | findstr ".*\.c$" | trimeol.py
+"""Remove all end of line whitespace and tabs in a given text file(s).
+Usage:
+    trimeol.py [input_files]
+    If no input_files are supplied, the program reads from stdin.
+"""
 
 import os
 import stat
@@ -66,7 +40,8 @@ def process_file(name):
         return write_data(data, fname)
     except IOError:
         print("An error occurred processing {}".format(fname))
-        return -1
+
+    return -1
 
 def write_data(data, destination):
     """Write (overwrite) 'data' to 'destination' file semi-atomically.
@@ -112,7 +87,8 @@ def main():
                 nprocessed += 1
 
     time2 = time.clock()
-    print("{} files processed successfully in {} seconds.".format(nprocessed, round(time2 - time1, 4)))
+    print("{} files processed successfully in {} seconds.".format(nprocessed,
+                                                                  round(time2 - time1, 4)))
 
 if __name__ == "__main__":
     main()
