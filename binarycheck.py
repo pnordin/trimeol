@@ -3,25 +3,22 @@ import subprocess
 
 g_use_file_command = True
 
-def is_control_char(c):
-    """Return True if 'c' is a control character.
+def is_binary_file(fname):
+    """Determine if 'fname' is a binary file.
 
-    c is considered a control character if
-    it is outside of the extended ASCII set or
-    is a control character below 33.
-    An ASCII compatible character set is assumed.
+    If the file command is available, it will be used,
+    otherwise, a heuristic approach is taken.
+
+    Returns True if 'fname' appears to be a binary file.
     """
-    charcode = ord(c)
-    return (charcode < 33 or
-            charcode > 255)
+    if (g_use_file_command and
+            is_binary_file_f(fname)):
+        return True
 
-def control_char_count(data):
-    """Return the count of control characters in 'data'."""
-    n = 0
-    for c in data:
-        if is_control_char(c):
-            n += 1
-    return n
+    if is_binary_file_h(fname):
+        return True
+
+    return False
 
 def is_binary_file_h(fname):
     """Attempt to guess if 'fname' is a binary file heuristically.
@@ -66,19 +63,22 @@ def is_binary_file_f(fname):
         return False
     return True
 
-def is_binary_file(fname):
-    """Determine if 'fname' is a binary file.
+def is_control_char(c):
+    """Return True if 'c' is a control character.
 
-    If the file command is available, it will be used,
-    otherwise, a heuristic approach is taken.
-
-    Returns True if 'fname' appears to be a binary file.
+    c is considered a control character if
+    it is outside of the extended ASCII set or
+    is a control character below 33.
+    An ASCII compatible character set is assumed.
     """
-    if (g_use_file_command and
-            is_binary_file_f(fname)):
-        return True
+    charcode = ord(c)
+    return (charcode < 33 or
+            charcode > 255)
 
-    if is_binary_file_h(fname):
-        return True
-
-    return False
+def control_char_count(data):
+    """Return the count of control characters in 'data'."""
+    n = 0
+    for c in data:
+        if is_control_char(c):
+            n += 1
+    return n
