@@ -1,5 +1,8 @@
 # Remove all end of line whitespace and tabs in a text file(s).
 
+## Requirements
+    Python 2.7+ (Python 3 recommended)
+
 ## Usage:
     trimeol.py [input_files]
     If no input_files are supplied, the program reads from stdin.
