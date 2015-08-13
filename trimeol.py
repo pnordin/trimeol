@@ -17,8 +17,8 @@ def process_file(name):
 
     Returns 0 on success.
     """
-    fname = name.rstrip(' \t\n\r')
-    data = ""
+    fname = name.rstrip(" \t\n\r")    
+    lines = []
     original_len = 0
 
     if binarycheck.is_binary_file(fname):
@@ -29,12 +29,9 @@ def process_file(name):
         with open(fname, 'r') as fin:
             for line in fin:
                 original_len += len(line)
-                data = "".join([data,
-                                line.rstrip(' \t\n'),
-                                '\n'])
-
-        if original_len == len(data): # No change in data
-            print("Skipping {} - no changes to be made.".format(fname))
+                lines.append(line.rstrip(" \t\n") + "\n")
+        data = "".join(lines)
+        if original_len == len(data): # No changes made
             return -1
 
         return write_data(data, fname)
