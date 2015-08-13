@@ -89,8 +89,8 @@ def main():
     else:
         files = sys.argv[1:]
 
-    for file in files:
-        res = process_file(file.strip(" \r\n\r"))
+    for fname in files:
+        res = process_file(fname.strip(" \r\n\r"))
         if res >= 0:
             counters["processed"] += 1
             if res == 0:
@@ -102,11 +102,12 @@ def main():
 
 
     time2 = time.clock()
-    print("Finished processing after {} seconds.".format(round(time2 - time1, 4)))
+    timediff = round(time2 - time1, 4)
+    print("Finished processing files after {} seconds.".format(timediff))
 
     col_width = max(len(row) for row in counters.keys()) + 2
     print("=== Summary ===")
-    for key, value in counters.iteritems():
+    for key, value in counters.items():
         print("{}: {}".format(key.capitalize().ljust(col_width), value))
 
 if __name__ == "__main__":
