@@ -1,12 +1,12 @@
-
+"""Module to help guess whether a file is binary or text."""
 def is_binary_file(fname):
     """Attempt to guess if 'fname' is a binary file heuristically.
 
-    The algorithm has many flaws. Use with caution.
+    This algorithm has many flaws. Use with caution.
     It assumes that if a part of the file has NUL bytes
     or has more control characters than text characters,
-    it is probably a binary file.
-    An ASCII compatible character set is assumed.
+    it is a binary file.
+    Additionally, an ASCII compatible character set is assumed.
 
     Returns True if 'fname' appears to be a binary file.
     """
