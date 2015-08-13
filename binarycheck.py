@@ -1,4 +1,12 @@
-"""Module to help guess whether a file is binary or text."""
+"""Module to help guess whether a file is binary or text.
+
+Requirements:
+    Python 2.7+
+
+Recommended:
+    Python 3
+"""
+
 def is_binary_file(fname):
     """Attempt to guess if 'fname' is a binary file heuristically.
 
@@ -28,11 +36,23 @@ def is_control_char(c):
 
     c is considered a control character if
     it is outside of the extended ASCII set or
-    is a control character below 33.
+    has a code below 32 with some exclusions.
     An ASCII compatible character set is assumed.
     """
-    charcode = ord(c)
-    return (charcode < 33 or
+    charcode = 0
+    # The following assignment
+    # should make this module compatible with
+    # at least Python 2.7 (tested on 2.7.9).
+    try:
+        charcode = ord(c)
+    except TypeError:
+        charcode = c
+
+    excludes = ("\t", "\r", "\n")
+    if charcode in [ord(char) for char in excludes]:
+        return False
+
+    return (charcode < 32 or
             charcode > 255)
 
 def control_char_count(data):
